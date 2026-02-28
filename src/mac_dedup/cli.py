@@ -160,7 +160,7 @@ def scan(
     "--yes",
     "-y",
     is_flag=True,
-    help="Skip confirmation prompt",
+    help="Skip confirmation prompt (use with caution, has no effect with --dry-run)",
 )
 def clean(
     directory: str,
