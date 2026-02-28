@@ -5,6 +5,7 @@ import time
 from pathlib import Path
 from typing import Dict, Generator, List, Optional
 
+from mac_dedup.file_type import FileType
 from mac_dedup.filter import FileFilter
 
 
@@ -14,7 +15,7 @@ class DirectoryScanner:
     def __init__(
         self,
         root_dir: str,
-        file_types: Optional[List] = None,
+        file_types: Optional[List[FileType]] = None,
         exclude_dirs: Optional[List[str]] = None,
         use_default_excludes: bool = True,
     ) -> None:

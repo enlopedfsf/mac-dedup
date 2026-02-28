@@ -2,7 +2,7 @@
 
 import json
 from pathlib import Path
-from typing import List, Optional, cast
+from typing import Any, List, Optional, Union, cast
 
 import click
 
@@ -67,7 +67,7 @@ def parse_file_types(file_types_str: Optional[str]) -> Optional[List[FileType]]:
 def scan(
     directory: str,
     file_types: Optional[str],
-    exclude: tuple,
+    exclude: tuple[str, ...],
     include_defaults: bool,
 ) -> None:
     """Scan directory for duplicate files."""
@@ -89,7 +89,7 @@ def scan(
         return
 
     # Group by size for efficient hashing
-    size_groups: dict[int, List[dict]] = {}
+    size_groups: dict[int, List[dict[str, Any]]] = {}
     for info in file_infos:
         size = cast(int, info["size"])
         if size not in size_groups:
@@ -109,7 +109,7 @@ def scan(
     click.echo("Hashing files...\n")
 
     hash_engine = HashEngine()
-    duplicate_groups: dict[str, List[dict]] = {}
+    duplicate_groups: dict[str, List[dict[str, Any]]] = {}
 
     for group in potential_dupes:
         for info in group:
@@ -165,7 +165,7 @@ def scan(
 def clean(
     directory: str,
     file_types: Optional[str],
-    exclude: tuple,
+    exclude: tuple[str, ...],
     dry_run: bool,
     yes: bool,
 ) -> None:
@@ -273,7 +273,7 @@ def clean(
 def report(
     directory: str,
     file_types: Optional[str],
-    exclude: tuple,
+    exclude: tuple[str, ...],
     format: str,
 ) -> None:
     """Generate a report of duplicate files."""
