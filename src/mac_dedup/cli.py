@@ -156,11 +156,18 @@ def scan(
     is_flag=True,
     help="Preview deletions without actually deleting",
 )
+@click.option(
+    "--yes",
+    "-y",
+    is_flag=True,
+    help="Skip confirmation prompt",
+)
 def clean(
     directory: str,
     file_types: Optional[str],
     exclude: tuple,
     dry_run: bool,
+    yes: bool,
 ) -> None:
     """Remove duplicate files, keeping one copy per group."""
     types = parse_file_types(file_types)
@@ -228,8 +235,9 @@ def clean(
         click.echo("Dry run mode - no files were deleted.")
         return
 
-    # Confirm deletion
-    click.confirm("\nDelete these files?", abort=True)
+    # Confirm deletion (skip if --yes flag is set)
+    if not yes:
+        click.confirm("\nDelete these files?", abort=True)
 
     # Execute deletion
     deleter = Deleter(dry_run=False)
