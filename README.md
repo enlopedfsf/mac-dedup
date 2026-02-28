@@ -42,6 +42,9 @@ mac-dedup clean /path/to/directory
 # Preview deletions without actually deleting
 mac-dedup clean --dry-run /path/to/directory
 
+# Remove duplicates without confirmation (for automation)
+mac-dedup clean --yes /path/to/directory
+
 # Generate a detailed report
 mac-dedup report /path/to/directory
 ```
@@ -73,8 +76,11 @@ Supported file types:
 # Dry run to see what would be deleted
 mac-dedup clean --dry-run /path/to/directory
 
-# Combine with filters
-mac-dedup clean --file-types video --dry-run /Movies
+# Remove duplicates without confirmation (for automation)
+mac-dedup clean --yes /path/to/directory
+
+# Combine with filters and skip confirmation
+mac-dedup clean --yes --file-types video /Movies
 ```
 
 **Keep Strategy**: The newest file in each duplicate group is automatically kept.

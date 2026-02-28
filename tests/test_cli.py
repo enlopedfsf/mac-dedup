@@ -137,6 +137,32 @@ def test_clean_with_keep_option(temp_directory: Path) -> None:
     assert result.exit_code == 0
 
 
+def test_clean_with_yes_flag_skip_confirmation(temp_directory: Path) -> None:
+    """Test clean command with --yes flag skips confirmation."""
+    runner = CliRunner()
+    result = runner.invoke(mac_dedup.cli.main, ["clean", "--yes", "--dry-run", str(temp_directory)])
+    assert result.exit_code == 0
+    assert "DRY RUN mode" in result.output or "dry run" in result.output.lower()
+
+
+def test_clean_requires_confirmation_without_yes(temp_directory: Path) -> None:
+    """Test clean command requires confirmation without --yes flag."""
+    runner = CliRunner()
+    # Simulate user typing 'n' to abort
+    result = runner.invoke(mac_dedup.cli.main, ["clean", str(temp_directory)], input="n")
+    assert result.exit_code == 1  # Aborted
+    assert "Aborted" in result.output
+
+
+def test_clean_with_yes_and_dry_run(temp_directory: Path) -> None:
+    """Test clean command with both --yes and --dry-run flags."""
+    runner = CliRunner()
+    result = runner.invoke(mac_dedup.cli.main, ["clean", "--yes", "--dry-run", str(temp_directory)])
+    assert result.exit_code == 0
+    # --yes should have no effect in dry-run mode
+    assert "DRY RUN mode" in result.output or "dry run" in result.output.lower()
+
+
 def test_report_table_format(temp_directory: Path) -> None:
     """Test report with table format."""
     runner = CliRunner()
