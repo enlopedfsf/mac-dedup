@@ -62,10 +62,10 @@ mac-dedup scan --no-include-defaults /path/to/dir
 ```
 
 Supported file types:
-- `text` - `.txt`, `.md`, `.rtf`, `.doc`, `.docx`, `.pdf`
-- `audio` - `.mp3`, `.m4a`, `.wav`, `.aac`, `.flac`
-- `video` - `.mp4`, `.mov`, `.avi`, `.mkv`, `.webm`
-- `archive` - `.zip`, `.rar`, `.7z`, `.tar`, `.gz`, `.dmg`, `.pkg`
+- `text` - `.txt`, `.md`, `.rtf`, `.doc`, `.docx`, `.pdf`, `.tex`, `.log`, `.csv`, `.json`, `.xml`, `.yaml`, `.yml`, `.ini`, `.cfg`, `.conf`, `.toml`, `.asc`, `.bib`, `.sty`, `.xls`, `.xlsx`, `.xlsm`, `.xlsb`, `.ppt`, `.pptx`, `.potx`, `.pps`, `.wps`, `.et`, `.ett`
+- `audio` - `.mp3`, `.m4a`, `.wav`, `.aac`, `.flac`, `.wma`, `.ogg`, `.aiff`, `.mid`, `.mka`, `.opus`
+- `video` - `.mp4`, `.mov`, `.avi`, `.mkv`, `.webm`, `.flv`, `.wmv`, `.m4v`, `.3gp`, `.ts`, `.mts`, `.ogv`
+- `archive` - `.zip`, `.rar`, `.7z`, `.tar`, `.gz`, `.bz2`, `.xz`, `.lzma`, `.tar.gz`, `.tar.bz2`, `.tar.xz`, `.iso`, `.img`, `.dmg`, `.pkg`, `.jar`, `.war`, `.ear`, `.deb`, `.rpm`, `.apk`, `.ipa`
 
 #### Clean Command
 

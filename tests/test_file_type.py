@@ -13,7 +13,99 @@ def test_filetype_enum_values():
     assert FileType.UNKNOWN
 
 
-@pytest.mark.parametrize("ext", ["txt", "md", "rtf", "doc", "docx", "pdf"])
+TEXT_EXTENSIONS = [
+    "txt",
+    "md",
+    "rtf",
+    "doc",
+    "docx",
+    "docm",
+    "pdf",
+    "tex",
+    "log",
+    "csv",
+    "json",
+    "xml",
+    "yaml",
+    "yml",
+    "ini",
+    "cfg",
+    "conf",
+    "toml",
+    "asc",
+    "bib",
+    "sty",
+    # Microsoft Office
+    "xls",
+    "xlsx",
+    "xlsm",
+    "xlsb",
+    # WPS Office
+    "ppt",
+    "pptx",
+    "potx",
+    "pps",
+    "wps",
+    "et",
+    "ett",
+]
+
+AUDIO_EXTENSIONS = [
+    "mp3",
+    "m4a",
+    "wav",
+    "aac",
+    "flac",
+    "wma",
+    "ogg",
+    "aiff",
+    "mid",
+    "mka",
+    "opus",
+]
+
+VIDEO_EXTENSIONS = [
+    "mp4",
+    "mov",
+    "avi",
+    "mkv",
+    "webm",
+    "flv",
+    "wmv",
+    "m4v",
+    "3gp",
+    "ts",
+    "mts",
+    "ogv",
+]
+
+ARCHIVE_EXTENSIONS = [
+    "zip",
+    "rar",
+    "7z",
+    "tar",
+    "gz",
+    "bz2",
+    "xz",
+    "lzma",
+    "tar.gz",
+    "tar.bz2",
+    "tar.xz",
+    "iso",
+    "img",
+    "dmg",
+    "pkg",
+    "jar",
+    "war",
+    "ear",
+    "deb",
+    "rpm",
+    "apk",
+    "ipa",
+]
+
+
+@pytest.mark.parametrize("ext", TEXT_EXTENSIONS)
 def test_text_extensions(ext):
     """Test text document extensions."""
     assert get_type(ext) == FileType.TEXT
@@ -22,7 +114,7 @@ def test_text_extensions(ext):
     assert get_type(f".{ext.upper()}") == FileType.TEXT
 
 
-@pytest.mark.parametrize("ext", ["mp3", "m4a", "wav", "aac", "flac"])
+@pytest.mark.parametrize("ext", AUDIO_EXTENSIONS)
 def test_audio_extensions(ext):
     """Test audio file extensions."""
     assert get_type(ext) == FileType.AUDIO
@@ -31,7 +123,7 @@ def test_audio_extensions(ext):
     assert get_type(f".{ext.upper()}") == FileType.AUDIO
 
 
-@pytest.mark.parametrize("ext", ["mp4", "mov", "avi", "mkv", "webm"])
+@pytest.mark.parametrize("ext", VIDEO_EXTENSIONS)
 def test_video_extensions(ext):
     """Test video file extensions."""
     assert get_type(ext) == FileType.VIDEO
@@ -40,7 +132,7 @@ def test_video_extensions(ext):
     assert get_type(f".{ext.upper()}") == FileType.VIDEO
 
 
-@pytest.mark.parametrize("ext", ["zip", "rar", "7z", "tar", "gz", "bz2", "dmg", "pkg"])
+@pytest.mark.parametrize("ext", ARCHIVE_EXTENSIONS)
 def test_archive_extensions(ext):
     """Test archive extensions."""
     assert get_type(ext) == FileType.ARCHIVE
@@ -82,8 +174,10 @@ def test_get_supported_extensions_text():
     assert ".md" in exts
     assert ".doc" in exts
     assert ".docx" in exts
-    assert ".rtf" in exts
-    assert len(exts) == 6
+    assert ".xlsx" in exts
+    assert ".ppt" in exts
+    assert ".wps" in exts
+    assert len(exts) == len(TEXT_EXTENSIONS)
 
 
 def test_get_supported_extensions_audio():
@@ -92,9 +186,9 @@ def test_get_supported_extensions_audio():
     assert ".mp3" in exts
     assert ".m4a" in exts
     assert ".wav" in exts
-    assert ".aac" in exts
-    assert ".flac" in exts
-    assert len(exts) == 5
+    assert ".wma" in exts
+    assert ".ogg" in exts
+    assert len(exts) == len(AUDIO_EXTENSIONS)
 
 
 def test_get_supported_extensions_video():
@@ -102,10 +196,10 @@ def test_get_supported_extensions_video():
     exts = get_supported_extensions(FileType.VIDEO)
     assert ".mp4" in exts
     assert ".mov" in exts
-    assert ".avi" in exts
     assert ".mkv" in exts
-    assert ".webm" in exts
-    assert len(exts) == 5
+    assert ".flv" in exts
+    assert ".3gp" in exts
+    assert len(exts) == len(VIDEO_EXTENSIONS)
 
 
 def test_get_supported_extensions_archive():
@@ -113,13 +207,12 @@ def test_get_supported_extensions_archive():
     exts = get_supported_extensions(FileType.ARCHIVE)
     assert ".zip" in exts
     assert ".rar" in exts
-    assert ".7z" in exts
     assert ".tar" in exts
-    assert ".gz" in exts
-    assert ".bz2" in exts
-    assert ".dmg" in exts
-    assert ".pkg" in exts
-    assert len(exts) == 8
+    assert ".xz" in exts
+    assert ".iso" in exts
+    assert ".jar" in exts
+    assert ".deb" in exts
+    assert len(exts) == len(ARCHIVE_EXTENSIONS)
 
 
 def test_get_supported_extensions_unknown():
@@ -135,3 +228,9 @@ def test_extensions_are_sorted():
 
     audio_exts = get_supported_extensions(FileType.AUDIO)
     assert audio_exts == sorted(audio_exts)
+
+    video_exts = get_supported_extensions(FileType.VIDEO)
+    assert video_exts == sorted(video_exts)
+
+    archive_exts = get_supported_extensions(FileType.ARCHIVE)
+    assert archive_exts == sorted(archive_exts)
