@@ -1,16 +1,22 @@
 [project]
 name = "mac-dedup"
 version = "0.1.0"
-description = "Fast duplicate file finder for macOS"
+description = "Fast duplicate file finder for macOS with safe deletion to Trash"
 readme = "README.md"
 requires-python = ">=3.8"
 license = {text = "MIT"}
 authors = [
     {name = "apple"}
 ]
+maintainers = [
+    {name = "apple"}
+]
+keywords = ["duplicate", "deduplication", "file", "cleanup", "macos", "cli"]
 classifiers = [
-    "Development Status :: 3 - Alpha",
+    "Development Status :: 4 - Beta",
+    "Environment :: Console",
     "Intended Audience :: End Users/Desktop",
+    "Intended Audience :: System Administrators",
     "License :: OSI Approved :: MIT License",
     "Operating System :: OS Independent",
     "Programming Language :: Python :: 3",
@@ -19,10 +25,13 @@ classifiers = [
     "Programming Language :: Python :: 3.10",
     "Programming Language :: Python :: 3.11",
     "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
     "Topic :: System :: Filesystems",
+    "Topic :: Utilities",
 ]
 dependencies = [
     "click>=8.1.0",
+    "send2trash>=1.8.0",
 ]
 
 [project.optional-dependencies]
@@ -31,6 +40,8 @@ dev = [
     "pytest-cov>=4.0.0",
     "black>=24.1.0",
     "mypy>=1.8.0",
+    "pre-commit>=3.7.0",
+    "types-setuptools>=69.0.0",
 ]
 
 [project.scripts]
@@ -84,3 +95,7 @@ strict_equality = true
 [[tool.mypy.overrides]]
 module = "tests.*"
 disallow_untyped_defs = false
+
+[[tool.mypy.overrides]]
+module = "send2trash"
+ignore_missing_imports = true

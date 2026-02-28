@@ -3,17 +3,28 @@
 import os
 import time
 from pathlib import Path
-from typing import Dict, Generator, Optional
+from typing import Dict, Generator, List, Optional
+
+from mac_dedup.filter import FileFilter
 
 
 class DirectoryScanner:
     """Recursively scan directories with real-time progress display."""
 
-    def __init__(self, root_dir: str) -> None:
-        """Initialize scanner with root directory.
+    def __init__(
+        self,
+        root_dir: str,
+        file_types: Optional[List] = None,
+        exclude_dirs: Optional[List[str]] = None,
+        use_default_excludes: bool = True,
+    ) -> None:
+        """Initialize scanner with root directory and optional filters.
 
         Args:
             root_dir: Absolute path to directory to scan
+            file_types: List of file types to include (None = all)
+            exclude_dirs: List of directory patterns to exclude
+            use_default_excludes: Whether to use default exclude patterns
 
         Raises:
             ValueError: If root_dir doesn't exist or isn't a directory
@@ -29,6 +40,13 @@ class DirectoryScanner:
         self._skipped_symlinks = 0
         self._errors = 0
         self._current_dir = ""
+
+        # Initialize file filter
+        self._filter = FileFilter(
+            file_types=file_types,
+            exclude_dirs=exclude_dirs,
+            use_default_excludes=use_default_excludes,
+        )
 
     def _estimate_total(self) -> int:
         """Estimate total files for progress calculation.
@@ -111,6 +129,11 @@ class DirectoryScanner:
                     if filepath.is_symlink():
                         self._skipped_symlinks += 1
                         continue
+
+                    # Apply file filter
+                    if self._filter.is_filtering_active():
+                        if not self._filter.should_include_file(str(filepath)):
+                            continue
 
                     try:
                         stat = filepath.stat()
