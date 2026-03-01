@@ -76,7 +76,6 @@ env/
 
 # Planning (except config.json - committed separately)
 .planning/research/
-.planning/REQUIREMENTS.md
 .planning/ROADMAP.md
 .planning/STATE.md
 .planning/codebase/
