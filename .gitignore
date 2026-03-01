@@ -74,8 +74,5 @@ env/
 # Editor
 .vscode/
 
-# Planning (except config.json - committed separately)
+# Planning (only research/ excluded - config, roadmap, state committed separately)
 .planning/research/
-.planning/ROADMAP.md
-.planning/STATE.md
-.planning/codebase/
